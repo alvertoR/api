@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Api</title>
+</head>
+<body>
+
+    <button onclick="get('peliculas')">
+        Peliculas
+    </button>
+    <button onclick="get('empleados')">
+        Empleados
+    </button>
+
+    <ul id="resultados">
+    </ul>
+
+
+    <script>
+
+
+        function get(parametro){
+            //Lo primero es mandar la url de donde van a llegar los datos
+            fetch('http://localhost:8080/api/backend/'+parametro)
+            //esperamos que lleguen nuestros datos y con la extención .json(), hace referencia
+            //a que los datos vienen en tipo json
+            .then(datos=>datos.json())
+            .then(datos=>{
+                var resultado = document.getElementById('resultados');
+                resultado.innerHTML = '';
+
+                if(parametro == 'peliculas'){
+                    for(let dato of datos){
+                        resultado.innerHTML += `
+                        <li>ID: ${dato.id} - Nombre: ${dato.nombre} - Estreno: ${dato.estreno} - Tiquete: ${dato.valor}</li>
+                        `;
+                    }
+                }else if(parametro == 'empleados'){
+                    for(let dato of datos){
+                        resultado.innerHTML += `
+                        <li>ID: ${dato.id} - Nombre: ${dato.nombre} - Apellido: ${dato.apellido} - Edad: ${dato.edad}</li>
+                        `;
+                    }
+                }
+                    
+            })
+
+        }
+
+        
+    </script>
+    
+</body>
+</html>
